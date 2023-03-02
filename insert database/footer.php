@@ -12,13 +12,13 @@
 
         },
         success: function (response) {
-          $("#demo").text(response);
+          $("#demo").html(response);
+          response.preventDefault();
         }
       });
     })
     $("#sub").click(function () {
       $("#commentForm").validate({
-
         rules: {
           fn: "required",
           ln: "required",
@@ -31,9 +31,6 @@
           ph: { accept: "image/*" }
         }
       });
-
-
-
     });
   });
 </script>
