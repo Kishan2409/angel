@@ -1,7 +1,7 @@
 <?php 
-                $f=$fatchuser[0]['subject'];
-                $l=explode(",","$f");
-                ?>
+$f=$fatchuser[0]['subject'];
+$l=explode(",","$f");
+?>
 <section class="vh-100 gradient-custom">
   <div class="container py-5 h-100">
     <div class="row justify-content-center align-items-center h-100">
@@ -9,7 +9,7 @@
         <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
           <div class="card-body p-4 p-md-5">
             <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Update User Details</h3>
-            <img src="<?php echo $fatchuser[0]['photo'];?>" class="mt-1 mb-5 w-100" >
+            <img src="<?php echo $fatchuser[0]['photo'];?>" class="mt-1 mb-5 w-25" >
 
             <form method="post" id="commentForm" class="commentForm" enctype="multipart/form-data">
 
@@ -49,10 +49,12 @@
                   <h6 class=" mb-2 pb-1">Gender: </h6>
 
                   <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="gender" id="femaleGender" value="Female" <?php
+                    <input class="form-check-input" type="radio" name="gender" id="femaleGender" value="Female" 
+                    <?php
                     if ($fatchuser[0]['gender'] == 'Female') {
                       echo "checked";
-                    } ?> />
+                    } ?>
+                    />
                     <label class="form-check-label" for="femaleGender">Female</label>
                   </div>
 
@@ -108,30 +110,35 @@
                 <h6 class=" mb-2 pb-1">Subject </h6>
                 
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" name="sub[]" value="CorePHP" <?php 
-	if (in_array("CorePHP", $l)) {
-		echo "checked";
-	}
-	?>  />
+                  <input class="form-check-input" type="checkbox" name="sub[]" value="CorePHP" 
+                  <?php 
+                    if (in_array("CorePHP", $l)) {
+                      echo "checked";
+                    }
+	                ?>
+                  />
                   <label class="form-check-label">CorePHP</label>
                 </div>
 
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" name="sub[]" value="AdvancePHP" <?php 
-	if (in_array("AdvancePHP", $l)) {
-		echo "checked";
-	}
-	?>  />
+                  <input class="form-check-input" type="checkbox" name="sub[]" value="AdvancePHP" 
+                  <?php 
+                    if (in_array("AdvancePHP", $l)) {
+                      echo "checked";
+                    }
+                  ?>
+                  />
                   <label class="form-check-label">AdvancePHP</label>
                 </div>
 
                 <div class="form-check form-check-inline">
                   <input class="form-check-input" type="checkbox" name="sub[]" value="Laravel"
                   <?php 
-	if (in_array("Laravel", $l)) {
-		echo "checked";
-	}
-	?>  />
+                    if (in_array("Laravel", $l)) {
+                      echo "checked";
+                    }
+                  ?>
+                  />
                   <label class="form-check-label">Laravel</label>
                 </div>
               </div>
@@ -145,7 +152,4 @@
                 <input class="btn btn-primary btn-lg" type="submit" id="sub" name="updateud"
                   value="Update User Details" />
               </div>
-
-
-
             </form>

@@ -6,14 +6,14 @@
           <div class="card-body p-4 p-md-5">
             <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Registration Form</h3>
 
-            <form method="post" id="commentForm" action=".">
+            <form method="post" id="commentForm" enctype="multipart/form-data">
 
               <div class="row">
                 <div class="col-md-6 mb-4">
 
                   <div class="form-outline">
-                    <input type="text" id="firstName" name="fn" value="" class=" form-control form-control-lg"
-                      minlength="3" required />
+                    <input type="text" id="firstName" name="fn" class=" form-control form-control-lg" minlength="3"
+                      required />
                     <label class="form-label" for="firstName">First Name</label>
                   </div>
 
@@ -75,11 +75,11 @@
                 <div class="col-md-6 mb-4 pb-2">
 
                   <div class="form-outline">
-                    <input type="tel" id="phone" name="phone" value="" class=" form-control form-control-lg" required
-                      minlength="10" maxlength="10" />
-                    
+                    <input type="tel" id="phone" name="phone" value="" class="chaking form-control form-control-lg"
+                      required minlength="10" maxlength="10" />
+
                     <label class="form-label" for="phoneNumber">Phone Number</label>
-                    <p id="demo"></p>
+                    <label id="demo" ></label>
                   </div>
 
                 </div>

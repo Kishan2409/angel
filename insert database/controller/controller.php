@@ -1,4 +1,5 @@
 <?php
+error_reporting(0);
 require_once("model/model.php");
 class controller extends model
 {
@@ -7,14 +8,11 @@ class controller extends model
         parent::__construct();
         $user = $this->select1('user');
         //$ch=$this->select('user','phone');
-        if(isset($_POST['check_submit_btn'])){
-            $phone=$_POST['phone'];
-            $phfatch="SELECT * FROM user WHERE phone='$phone' ";
-            $phfatchrun=mysqli_query($this->con,$phfatch);
-            if(mysqli_num_rows($phfatchrun)>0){
-               echo"Phone Number is already store in database";
-            }else{
-                echo"Good";
+        if (isset($_POST['phone'])) {
+            $phone = $_POST['phone'];
+            $chphone=$this->select('user', $phone);
+            if ($chphone == $phone) {
+                echo 0;
             }
         }
         if (!empty($_POST['phone'])) {
@@ -48,25 +46,21 @@ class controller extends model
                     $chk = $this->insert('user', $data);
                     if ($chk) {
                         echo "<script>
-                alert('User Insert Successfully')
-                window.location='./';
-                    </script>";
+                        alert('User Insert Successfully')
+                        window.location='./';
+                        </script>";
                     } else {
                         echo "<script>
-                alert('Something was wrong!')
-                window.location='./';
-                </script>";
+                        alert('Something was wrong!')
+                        window.location='./';
+                        </script>";
                     }
                 }
-            } else {?>
-                <script>
-                alert('First Enter Valid Number!')
-                </script>
-           <?php }
+            }
 
         }
 
-       
+
         //update user
         if (isset($_GET['updateuser'])) {
             $id = $_GET['updateuser'];
@@ -80,7 +74,7 @@ class controller extends model
             $dob = $_POST["dob"];
             $gender = $_POST["gender"];
             $email = $_POST["email"];
-            $phone = $_POST["phone"];
+
             $pass = base64_encode($_POST["pass"]);
 
             // checkbox
@@ -95,7 +89,7 @@ class controller extends model
             $path = "uploads/" . $_FILES["ph"]["name"];
             move_uploaded_file($tmp_name, $path);
 
-            $chk = $this->updprofile('user', $fn, $ln, $dob, $gender, $email, $phone, $pass, $sub1, $path, $id);
+            $chk = $this->updprofile('user', $fn, $ln, $dob, $gender, $email, $pass, $sub1, $path, $id);
             if ($chk) {
                 echo "<script>
                 alert('User Profile Update Successfully')
@@ -152,10 +146,11 @@ class controller extends model
                     break;
 
                 default:
-                    
+
                     break;
             }
         }
     }
 }
 $obj = new controller();
+?>
