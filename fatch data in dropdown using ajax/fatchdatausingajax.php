@@ -7,96 +7,94 @@
     <title>fatch data using ajax</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+        crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
-        integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
         crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
-        integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
         crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script>
         $(function () {
-            var rows = 0;
-            $("#tbody").on('click','.add',function (e) {
-                $("#tbody").append(`<tr id="r${++rows}">
+            var rows = 0, c = 0, s = 0, ci = 0, count = 0,count1 = 0;
+
+            $("#tbody").on('click', '.add', function (e) {
+                // add row in table
+                
+                $("#tbody").append(`<tr ${++c}${++count}${++count1}${++s}${++ci}id="R${++rows}">
                 <td>
-                            <select name="country" class="form-control" id="country">
+                            <select name="country" class="country form-control"  data-state_id="${count}" id="country${c}">
                                 <option selected> ---- Select Country ----</option>
                                 <?php
                                 foreach ($contry as $row) {
                                     ?>
-                                    <option value="<?php echo $row["id"]; ?>"><?php echo $row["name"]; ?></option>
+                                           <option value="<?php echo $row["id"]; ?>"><?php echo $row["name"]; ?></option>
                                     <?php
                                 }
                                 ?>
                             </select>
                         </td>
                         <td>
-                            <select name="state" class="form-control" id="state">
+                            <select name="state" class="state form-control" data-city_id="${count1}" id="state${count}">
                                 <option selected> ---- Select State ----</option>
-                                <?php
-                                foreach ($stateall as $row) {
-                                    ?>
-                                    <option value="<?php echo $row["id"]; ?>"><?php echo $row["state_name"]; ?></option>
-                                    <?php
-                                }
-                                ?>
+                                
                             </select>
                         </td>
                         <td>
-                            <select name="city" class="form-control" id="city">
+                            <select name="city" class="city form-control" id="city${count1}">
                                 <option selected> ---- Select City ----</option>
-                                <?php
-                                foreach ($cityall as $row) {
-                                    ?>
-                                    <option value="<?php echo $row["id"]; ?>"><?php echo $row["city_name"]; ?></option>
-                                    <?php
-                                }
-                                ?>
+                                
                             </select>
                         </td>
-                        <td>
-                        <input type="submit" name="add" id="add" class="add btn btn-success" value="+">
-                         <input type="submit" name="remove" id="remove" class="remove  btn btn-danger"
-                                value="-">
+                        <td align="center" class="">
+                            <input type="submit" name="add" id="add" class="add  btn btn-success" value="+">
+                            <input type="submit" name="remove" id="remove" class="remove  btn btn-danger" value="-">
                         </td>
                 </tr>
                 `);
                 e.preventDefault();
             });
-
+            // remove row in table
             $("#tbody").on('click', '.remove', function () {
-                if(rows!=0){
+                if (rows != 0) {
                     $(this).closest('tr').remove();
-                rows--
+                    c--
+                    s--
+                    ci--
+                    rows--
                 }
             });
 
-            // $("#country").on("change", function () {
-            //     var countryId = $(this).val();
-            //     $.ajax({
-            //         type: "POST",
-            //         url: "controller.php",
-            //         data: { id: countryId },
-            //         dataType: "html",
-            //         success: function (data) {
-            //             $("#state").html(data);
-            //         }
-            //     });
-            // });
-            // $("#state").on("change", function () {
-            //     var stateId = $(this).val();
-            //     $.ajax({
-            //         type: "POST",
-            //         url: "controller.php",
-            //         data: { sid: stateId },
-            //         dataType: "html",
-            //         success: function (data) {
-            //             $("#city").html(data);
-            //         }
-            //     });
-            // });
+            //fatch data 
+           
+            
+            $("#tbody").on("change", ".country", function (event) {
+                var countryId = $(this).val();
+                var state=$(this).data('state_id');
+                $.ajax({
+                    type: "POST",
+                    url: "controller.php",
+                    data: { id: countryId },
+                    dataType: "html",
+                    success: function (data) {
+                        $("#state" + state).html(data);
+                    }
+                });
+                event.preventDefault();
+            });
+            $("#tbody").on("change", ".state", function (event) {
+                var stateId = $(this).val();
+                var city=$(this).data('city_id');
+                $.ajax({
+                    type: "POST",
+                    url: "controller.php",
+                    data: { sid: stateId },
+                    dataType: "html",
+                    success: function (data) {
+                        $("#city" +city).html(data);
+                    }
+                });
+                event.preventDefault();
+            });
         });
     </script>
 </head>
@@ -105,10 +103,10 @@
     <br><br>
     <div class="container shadow-lg p-5">
         <form method="post">
-            <h3>Table row add and remove using jquery</h3>     <br>
-            
-            <br><br>
-            <table border="1" class="table shadow">
+            <h3>Table row add and remove using jquery</h3> <br>
+
+
+            <table class="table shadow">
                 <thead>
                     <tr>
                         <td>
@@ -126,10 +124,10 @@
                     </tr>
                 </thead>
                 <tbody id="tbody">
-                    <tr >
+                    <tr id="R0">
                         <td>
-                            <select name="country" class="form-control" id="country">
-                                <option selected> ---- Select Country ----</option>
+                            <select name="country" class="country form-control" data-state_id="0" id="country0">
+                                <option selected> ---- Select Country ---- </option>
                                 <?php
                                 foreach ($contry as $row) {
                                     ?>
@@ -140,33 +138,20 @@
                             </select>
                         </td>
                         <td>
-                            <select name="state" class="form-control" id="state">
-                                <option selected> ---- Select State ----</option>
-                                <?php
-                                foreach ($stateall as $row) {
-                                    ?>
-                                    <option value="<?php echo $row["id"]; ?>"><?php echo $row["state_name"]; ?></option>
-                                    <?php
-                                }
-                                ?>
+                            <select name="state" class="state form-control" data-city_id="0" id="state0">
+                                <option selected> ---- Select State ---- </option>
+
                             </select>
                         </td>
                         <td>
-                            <select name="city" class="form-control" id="city">
-                                <option selected> ---- Select City ----</option>
-                                <?php
-                                foreach ($cityall as $row) {
-                                    ?>
-                                    <option value="<?php echo $row["id"]; ?>"><?php echo $row["city_name"]; ?></option>
-                                    <?php
-                                }
-                                ?>
+                            <select name="city" class="city form-control" id="city0">
+                                <option selected> ---- Select City ---- </option>
+
                             </select>
                         </td>
-                        <td class="align-self-center">
-                        <input type="submit" name="add" id="add" class="add  btn btn-success" value="+">
-                            <input type="submit" name="remove" id="remove" class="remove  btn btn-danger"
-                                value="-">
+                        <td align="center" class="">
+                            <input type="submit" name="add" id="add" class="add  btn btn-success" value="+">
+                            <input type="submit" name="remove" id="remove" class="remove  btn btn-danger" value="-">
                         </td>
                     </tr>
                 </tbody>
