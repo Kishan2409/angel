@@ -20,9 +20,11 @@
     <!-- ajax -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <!-- ajax end -->
+    <!-- jquery validater -->
     <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+    <!-- jquery validater end -->
     <!-- select2 -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <!-- select2 end -->
@@ -75,20 +77,20 @@
                             </select>
                         </td>
                         <td>
-                            <input type="number" name="price" id="price${count}" data-p_id="${c}"  class="form-control price" >
+                            <input type="number" name="price" id="price${count}" data-p_id="${c}"  class="form-control price" style="width: 100px;" >
                         </td>
                         <td>
-                            <input class="form-control qty" name="qty" value="0" data-qty_id="${count1}" min="0" id="qty${count1}"  type="number"> 
+                            <input class="form-control qty" name="qty" value="0" data-qty_id="${count1}" min="0" id="qty${count1}"  type="number" style="width: 100px;"> 
                         </td>
                         <td>
-                            <label class="form-control amount" id="amount${count1}" name="amount" type="text">0</label>
+                            <label class="form-control amount" id="amount${count1}" name="amount" type="text" style="width: 100px;">0</label>
                         </td>
                         <td>
                             <input class="form-control vat" name="vat" value="0" data-vat_id="${count2}" min="0" id="vat${count2}"
-                                type="number">
+                                type="number" style="width: 100px;">
                         </td>
                         <td>
-                            <label class="form-control vatamount" id="vatamount${count2}" name="vatamount" type="text">0</label>
+                            <label class="form-control vatamount" id="vatamount${count2}" name="vatamount" type="text" style="width: 100px;">0</label>
                         </td>
                         <td align="center" class="">
                             <input type="submit" name="add" id="add" class="add  btn btn-success" value="+">
@@ -250,21 +252,21 @@
                             </select>
                         </td>
                         <td>
-                            <input type="number" name="price" id="price0" data-p_id="0" class="form-control price">
+                            <input type="number" name="price" id="price0" data-p_id="0" class="form-control price" style="width: 100px;">
                         </td>
                         <td>
                             <input class="form-control qty" name="qty" value="0" data-qty_id="0" min="0" id="qty0"
-                                type="number">
+                                type="number" style="width: 100px;">
                         </td>
                         <td>
-                            <label class="form-control amount" id="amount0" name="amount" type="text">0</label>
+                            <label class="form-control amount" id="amount0" name="amount" type="text" style="width: 100px;">0</label>
                         </td>
                         <td>
                             <input class="form-control vat" name="vat" value="0" data-vat_id="0" min="0" id="vat0"
-                                type="number">
+                                type="number" style="width: 100px;">
                         </td>
                         <td>
-                            <label class="form-control vatamount" id="vatamount0" name="vatamount" type="text">0</label>
+                            <label class="form-control vatamount" id="vatamount0" name="vatamount" type="text" style="width: 100px;">0</label>
                         </td>
                         <td align="center" class="">
                             <input type="submit" name="add" id="add" class="add  btn btn-success" value="+">
