@@ -20,6 +20,9 @@
     <!-- ajax -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <!-- ajax end -->
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
     <!-- select2 -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <!-- select2 end -->
@@ -32,7 +35,7 @@
                 var sum_amount = 0;
                 $('.amount').each(function () {
                     sum_amount += +$(this).html();
-                    $('#total_amount').html(sum_amount);
+                    $('#total_amount').html(sum_amount.toFixed(2));
                 });
             }
 
@@ -40,7 +43,7 @@
                 var sum_vat = 0;
                 $('.vatamount').each(function () {
                     sum_vat += +$(this).html();
-                    $('#total_vat').html(sum_vat);
+                    $('#total_vat').html(sum_vat.toFixed(2));
                 })
             }
 
@@ -48,22 +51,22 @@
                 var gt = 0;
                 $('#total_amount').each(function () {
                     gt += +$(this).html();
-                    $('#grand_total').html(gt);
+                    $('#grand_total').html(gt.toFixed(2));
                 });
                 $('#total_vat').each(function () {
                     gt += +$(this).html();
-                    $('#grand_total').html(gt);
+                    $('#grand_total').html(gt.toFixed(2));
                 });
             }
 
 
-            var rows = 0, count = 0, count1 = 0, count2 = 0;
+            var rows = 0, count = 0, count1 = 0, count2 = 0, c = 0;
             $("#tbody").on('click', '.add', function (e) {
                 // add row in table
 
-                $("#tbody").append(`<tr ${++count} ${++count1} ${++count2}id="R${++rows}">
+                $("#tbody").append(`<tr ${++c} ${++count} ${++count1} ${++count2}id="R${++rows}">
                         <td>
-                            <select name="product" id="product${count}" style="width: 100%;" data-price_id="${count}" class="product form-control">
+                            <select name="product" id="product${count}" style="width: 150px;" data-price_id="${count}" class="product form-control">
                             <option>Select Product</option><?php
                             foreach ($product as $key) {
                                 ?><option value="<?php echo $key['id'] ?>"><?php echo $key['name']; ?></option><?php
@@ -72,7 +75,7 @@
                             </select>
                         </td>
                         <td>
-                            <textarea name="price" id="price${count}"  class="form-control" style="height:30px" readonly>0</textarea>
+                            <input type="number" name="price" id="price${count}" data-p_id="${c}"  class="form-control price" >
                         </td>
                         <td>
                             <input class="form-control qty" name="qty" value="0" data-qty_id="${count1}" min="0" id="qty${count1}"  type="number"> 
@@ -117,24 +120,24 @@
                     type: "POST",
                     url: "controller.php",
                     data: { id: productId },
-                    dataType: "html",
+                    //dataType: "html",
                     success: function (data) {
-                        $("#price" + price).html(data);
+                        $("#price" + price).val(data);
                         var p = $("#price" + price).val();
                         var q = $("#qty" + price).val();
                         var t = p * q;
-                        $("#amount" + price).text(t);
+                        $("#amount" + price).html(t.toFixed(2));
 
                         var tp = $("#amount" + price).html();
                         var v = $("#vat" + price).val();
                         var v1 = tp * v / 100;
-                        $("#vatamount" + price).text(v1);
+                        $("#vatamount" + price).html(v1.toFixed(2));
 
                         totalamount();
                         totalvat();
                         grandtotal();
                     }
-                });
+                })
                 event.preventDefault();
             });
 
@@ -143,14 +146,14 @@
                 var p = $("#price" + qty).val();
                 var q = $("#qty" + qty).val();
                 var t = p * q;
-                $("#amount" + qty).text(t);
+                $("#amount" + qty).text(t.toFixed(2));
 
 
                 //var vat = $(this).data('vat_id');
                 var tp = $("#amount" + qty).html();
                 var v = $("#vat" + qty).val();
                 var v1 = tp * v / 100;
-                $("#vatamount" + qty).text(v1);
+                $("#vatamount" + qty).text(v1.toFixed(2));
 
                 totalamount();
                 totalvat();
@@ -160,18 +163,39 @@
             })
 
             $("#tbody").on("change", ".vat", function (event) {
+                $("#myform").validate({
+                    rules: {
+                        vat: {
+                            max: 100
+                        }
+                    }
+                });
                 var vat = $(this).data('vat_id');
                 var tp = $("#amount" + vat).html();
                 var v = $("#vat" + vat).val();
                 var v1 = tp * v / 100;
-                $("#vatamount" + vat).text(v1);
+                $("#vatamount" + vat).text(v1.toFixed(2));
+                totalamount();
+                totalvat();
+                grandtotal();
+                event.preventDefault();
+            })
 
+            $("#tbody").on("change", ".price", function () {
+                var c = $(this).data('p_id');
+                var p = $("#price" + c).val();
+                var q = $("#qty" + c).val();
+                var t = p * q;
+                $("#amount" + c).html(t.toFixed(2));
+
+                var tp = $("#amount" + c).html();
+                var v = $("#vat" + c).val();
+                var v1 = tp * v / 100;
+                $("#vatamount" + c).html(v1.toFixed(2));
 
                 totalamount();
                 totalvat();
                 grandtotal();
-
-                event.preventDefault();
             })
         });
     </script>
@@ -213,7 +237,7 @@
                 <tbody id="tbody">
                     <tr id="R0">
                         <td>
-                            <select name="product" id="product0" data-price_id="0" style="width: 100%;"
+                            <select name="product" id="product0" data-price_id="0" style="width: 150px;"
                                 class="product form-control">
                                 <option>Select Product</option>
                                 <?php
@@ -226,8 +250,7 @@
                             </select>
                         </td>
                         <td>
-                            <textarea name="price" id="price0" class="form-control" style="height:30px"
-                                readonly>0</textarea>
+                            <input type="number" name="price" id="price0" data-p_id="0" class="form-control price">
                         </td>
                         <td>
                             <input class="form-control qty" name="qty" value="0" data-qty_id="0" min="0" id="qty0"
